@@ -1,14 +1,30 @@
-from MathUtils import MathUtils
+from mathutils import MathUtils
 
 class PointNotOnCurveException(Exception):
     '''Raise when the point is not on the curve'''
-    
+
 
 class EllipticCurve(object):
 
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+    # Courbes standardisées
+    available_curves = [(1, 3),
+                        (1, 442)]
+
+    # Modulos standardisés correspondants
+    corresponding_modulus = [   17,
+                                509]
+
+    # Points standardisés correspondants
+    corresponding_points = [(3, 4),
+                            (4, 1)]
+
+    # First curve in array is the default one
+    def __init__(self):
+        self.a = self.available_curves[0][0]
+        self.b = self.available_curves[0][1]
+        self.setField(self.corresponding_modulus[0])
+        self.init_point = self.corresponding_points[0]
+        self.point_order = self.find_point_order(self.init_point)
 
     def __str__(self):
         return "y² = x³ + " + str(self.a) + "x + " + str(self.b)
@@ -90,3 +106,30 @@ class EllipticCurve(object):
             order += 1
 
         return order
+
+
+    def askCurveToUse(self):
+        print("-------------------------------------")
+        
+        for curve_index in range(len(self.available_curves)):
+            self.a = self.available_curves[curve_index][0]
+            self.b = self.available_curves[curve_index][1]
+            print(str(curve_index+1) + ": " + str(self))
+
+        try:
+            choosen_curve = int(input("Which curve do you want to use ? [default 1] : "))
+
+            if choosen_curve < 1 or choosen_curve > len(self.available_curves):
+                raise ValueError("Choosen curve doesn't exist.")
+
+            choosen_curve -= 1 # Replace dans le tableau
+
+        except ValueError:
+            print("Invalid curve id. Default will be used.")
+            choosen_curve = 1
+
+        self.a = self.available_curves[choosen_curve][0]
+        self.b = self.available_curves[choosen_curve][1]
+        self.setField(self.corresponding_modulus[choosen_curve])
+        self.init_point = self.corresponding_points[choosen_curve]
+        self.point_order = self.find_point_order(self.init_point)

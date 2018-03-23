@@ -1,11 +1,12 @@
 from ellipticcurve import EllipticCurve
+from mathutils import MathUtils
+from random import *
 
 class ElGamal(EllipticCurve):
 
     def __init__(self):
         super().__init__()
-        #TODO : convert msg to msg point
-        pass
+
 
     def __initElGamalParameters(self):
         self.private_key = randint(1, self.point_order-1)#trouver le poitn P au préalable
@@ -16,6 +17,14 @@ class ElGamal(EllipticCurve):
         self.remote_public_key = public_key
 
 
+    def getPublicKey(self):
+        return self.public_key
+
+
+    def convertStringToPointOnCurve(self, str):
+        pass
+
+
     def encrypt(self, msg):
         self.coef_k = randint(1, self.point_order)
         self.c1 = self.fast_exp(self.coef_k, self.init_point)#Pareil le point P
@@ -24,7 +33,7 @@ class ElGamal(EllipticCurve):
 
 
     def decrypt(self, cipher):
-        self.decrypt_step_one = self.fast_exp(cipher[0], self.private_key)
+        self.decrypt_step_one = self.fast_exp(self.private_key, cipher[0])
         self.decrypted_message = self.addPoints(cipher[1], MathUtils.symetric(self.decrypt_step_one))
         return self.decrypted_message
 

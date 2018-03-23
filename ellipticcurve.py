@@ -133,7 +133,7 @@ class EllipticCurve(object):
 
         except ValueError:
             print("Invalid curve id. Default will be used.")
-            choosen_curve = 1
+            choosen_curve = 0
 
         self.a = self.available_curves[choosen_curve][0]
         self.b = self.available_curves[choosen_curve][1]

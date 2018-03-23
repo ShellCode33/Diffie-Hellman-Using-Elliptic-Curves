@@ -6,17 +6,23 @@ class PointNotOnCurveException(Exception):
 
 class EllipticCurve(object):
 
+    # Recommanded EC : http://www.secg.org/sec2-v2.pdf
+
     # Courbes standardisées
-    available_curves = [(1, 3),
-                        (1, 442)]
+    available_curves = [(1, 3), # custom
+                        (0xF1FD178C0B3AD58F10126DE8CE42435B3961ADBCABC8CA6DE8FCF353D86E9C00, 0xEE353FCA5428A9300D4ABA754A44C00FDFEC0C9AE4B1A1803075ED967B7BB73F)] # https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000024668816
 
     # Modulos standardisés correspondants
-    corresponding_modulus = [   17,
-                                509]
+    corresponding_modulus = [17,
+                            0xF1FD178C0B3AD58F10126DE8CE42435B3961ADBCABC8CA6DE8FCF353D86E9C03]
 
     # Points standardisés correspondants
     corresponding_points = [(3, 4),
-                            (4, 1)]
+                            (0xB6B3D4C356C139EB31183D4749D423958C27D2DCAF98B70164C97A2DD98F5CFF, 0x6142E0F7C8B204911F9271F0F3ECEF8C2701C307E8E4C9E183115A1554062CFB)]
+
+    # Ordres des points standardisés
+    corresponding_orders = [17,
+                            0xF1FD178C0B3AD58F10126DE8CE42435B53DC67E140D2BF941FFDD459C6D655E1]
 
     # First curve in array is the default one
     def __init__(self):
@@ -24,7 +30,8 @@ class EllipticCurve(object):
         self.b = self.available_curves[0][1]
         self.setField(self.corresponding_modulus[0])
         self.init_point = self.corresponding_points[0]
-        self.point_order = self.find_point_order(self.init_point)
+        #self.point_order = self.find_point_order(self.init_point)
+        self.point_order = self.corresponding_orders[0]
 
     def __str__(self):
         return "y² = x³ + " + str(self.a) + "x + " + str(self.b)
@@ -110,7 +117,7 @@ class EllipticCurve(object):
 
     def askCurveToUse(self):
         print("-------------------------------------")
-        
+
         for curve_index in range(len(self.available_curves)):
             self.a = self.available_curves[curve_index][0]
             self.b = self.available_curves[curve_index][1]
@@ -132,4 +139,5 @@ class EllipticCurve(object):
         self.b = self.available_curves[choosen_curve][1]
         self.setField(self.corresponding_modulus[choosen_curve])
         self.init_point = self.corresponding_points[choosen_curve]
-        self.point_order = self.find_point_order(self.init_point)
+        #self.point_order = self.find_point_order(self.init_point)
+        self.point_order = self.corresponding_orders[choosen_curve]

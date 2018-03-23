@@ -1,5 +1,4 @@
-from EllipticCurve import EllipticCurve
-from random import *
+from ellipticcurve import EllipticCurve
 
 class ElGamal(object):
 

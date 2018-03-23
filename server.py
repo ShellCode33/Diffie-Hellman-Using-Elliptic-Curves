@@ -27,5 +27,8 @@ if __name__ == "__main__":
     dh.completeDiffieHellmanExchange(dh_parameter) # Attention au pickle.loads() qui peut entrainer une vulnérabilité, utilisé ici tel quel pour l'exemple
     conn.send(pickle.dumps(dh.getParameterToSend()))
 
+    eg = ElGamal("Hello world")
+    conn.send(pickle.dumps(eg.))
+
     conn.close()
     s.close()

@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys, os
-os.chdir(os.path.dirname(os.path.realpath(__file__))) # Set working directory to the script location
-sys.path.append('..') # Add parent directory to the path in order to import modules
+import os
+import sys
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))  # Set working directory to the script location
+sys.path.append('..')  # Add parent directory to the path in order to import modules
 
 from socket import *
 from algorithms.elgamal import ElGamal
@@ -13,18 +15,23 @@ BUFFER_SIZE = 4096
 
 if __name__ == "__main__":
 
+    # Creates the socket in order to connect to the server
     s = socket(AF_INET, SOCK_STREAM)
     s.connect(("localhost", 1337))
 
+    # Initialises ElGamal class and asking to the user which curve he wants to use
     eg = ElGamal()
     eg.askCurveToUse()
+
+    # Receives server's public key
+    # Be careful with pickle.loads() it can lead to serious security issues. This is only an example.
     public_key = pickle.loads(s.recv(BUFFER_SIZE))
 
-    # On recoit la clé publique du client, ATTENTION : l'authentification n'est pas garantie !! Un MITM est possible.
-    # C'est juste pour l'exemple, pour montrer que le chiffrement/déchiffrement fonctionne
+    # Sets the remote public key we've just received. In this example, the server is not authentificated,
+    # MITM is possible and the public key could be hijacked.
     eg.setRemotePublicKey(public_key)
 
-    print("Received public key of server")
+    print("Server's public key received.")
     cipher = eg.encrypt("Salut ca va ? Moi ca va très bien ma foi ! Je fais aller :) Nickel.")
     print("Sending encrypted message to server...")
     s.send(pickle.dumps(cipher))

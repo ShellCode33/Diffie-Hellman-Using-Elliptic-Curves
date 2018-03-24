@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from core.ellipticcurve import EllipticCurve
-import hashlib
-import pickle
 from random import *
 
 
@@ -33,10 +31,11 @@ class DiffieHellman(EllipticCurve):
         super(DiffieHellman, self).askCurveToUse()
         self.__initDiffieHellmanParameters()
 
-    def completeDiffieHellmanExchange(self, B):
+    def completeDiffieHellmanExchange(self, dh_param):
         """
-        Completes the DH exchange and calculate the secret key thanks to the parameter B
-        :param B: sent over the network by the person you're communicating with
+        Completes the DH exchange and calculate the secret key thanks to the parameter dh_param
+        :param dh_param: sent over the network by the person you're communicating with
         """
-        secret_key = self.fast_exp(self.dh_random, B)
-        print("sha1(secret_key) = " + hashlib.sha1(pickle.dumps(secret_key)).hexdigest())
+        secret_key = self.fast_exp(self.dh_random, dh_param)
+        return secret_key
+

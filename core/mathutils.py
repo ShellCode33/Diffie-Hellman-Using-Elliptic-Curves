@@ -7,8 +7,9 @@ class MathUtils(object):
     def egcd(a, b):
         """
         Extended Euclidean algorithm
-        :param a
-        :param b
+
+        :param a:
+        :param b:
         """
         if a == 0:
             return b, 0, 1
@@ -20,6 +21,7 @@ class MathUtils(object):
     def modinv(a, m):
         """
         Modular inverse calculation
+
         :param a: the number we want to inverse
         :param m: the modulus
         """
@@ -33,7 +35,7 @@ class MathUtils(object):
     @staticmethod
     def symetric(point):
         """
-        :param point
+        :param point:
         :return: Symetric of the point
         """
         return point[0], -point[1]
@@ -42,8 +44,9 @@ class MathUtils(object):
     def numberToBase(num, base):
         """
         Convert a number into digits list of specified base
-        :param num
-        :param base
+
+        :param num:
+        :param base:
         :return: a list of digits
         """
         if num == 0:
@@ -58,8 +61,9 @@ class MathUtils(object):
     def baseToNumber(digits, base):
         """
         Convert a list of digits into a number of specified base
-        :param digits
-        :param base
+
+        :param digits:
+        :param base:
         :return: a number
         """
         if len(digits) == 1:

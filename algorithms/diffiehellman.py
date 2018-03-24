@@ -20,6 +20,7 @@ class DiffieHellman(EllipticCurve):
     def getParameterToSend(self):
         """
         Getter
+
         :return: Diffie Hellman parameter to be sent over the network
         """
         return self.dh_param
@@ -34,6 +35,7 @@ class DiffieHellman(EllipticCurve):
     def completeDiffieHellmanExchange(self, dh_param):
         """
         Completes the DH exchange and calculate the secret key thanks to the parameter dh_param
+
         :param dh_param: sent over the network by the person you're communicating with
         """
         secret_key = self.fast_exp(self.dh_random, dh_param)

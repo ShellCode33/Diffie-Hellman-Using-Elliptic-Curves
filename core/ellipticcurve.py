@@ -48,6 +48,7 @@ class EllipticCurve(object):
     def isPointValid(self, point):
         """
         Check either a point is valid or not
+
         :param point: the point to check
         :return: True or False
         """
@@ -60,9 +61,9 @@ class EllipticCurve(object):
     def addPoints(self, p1, p2):
         """
         Add two point on the curve mod Fp
-        :param p1
-        :param p2
-        :return:
+
+        :param p1: first point
+        :param p2: second point
         """
         if not self.isPointValid(p1) or not self.isPointValid(p2):
             raise PointNotOnCurveException("Point not on the curve.")
@@ -93,8 +94,9 @@ class EllipticCurve(object):
     def fast_exp(self, n, point):
         """
         Fast algorithm to multiply n times the point
-        :param n
-        :param point
+
+        :param n:
+        :param point:
         :return: result point of the multiplication
         """
         if not self.isPointValid(point):
@@ -118,7 +120,8 @@ class EllipticCurve(object):
     def find_point_order(self, point):
         """
         Find the point order, this method is very slow with big numbers. The best way to do is to hardcode its value
-        :param point
+
+        :param point:
         :return: the point order
         """
         current = point

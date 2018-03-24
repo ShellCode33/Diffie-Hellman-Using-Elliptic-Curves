@@ -25,6 +25,7 @@ class ElGamal(EllipticCurve):
     def setRemotePublicKey(self, public_key):
         """
         Public Key Setter
+
         :param public_key: Public key of the person we're communicating with
         """
         self.remote_public_key = public_key
@@ -32,6 +33,7 @@ class ElGamal(EllipticCurve):
     def getPublicKey(self):
         """
         Public Key Getter
+
         :return: self.public_key
         """
         return self.public_key
@@ -40,6 +42,7 @@ class ElGamal(EllipticCurve):
     def convertMessageToPointsOnCurve(self, msg):
         """
         This method turns a message into points on the curve that can be encrypted
+
         :param msg: The string to encrypt
         :return: The list of points representing the message
         """
@@ -77,6 +80,7 @@ class ElGamal(EllipticCurve):
     def encrypt(self, msg):
         """
         The encryption method
+
         :param msg: The string you want to cipher
         :return: the encrypted string
         """
@@ -90,6 +94,7 @@ class ElGamal(EllipticCurve):
     def decrypt(self, cipher):
         """
         The decryption method
+
         :param cipher: The cipher you want to recover
         :return: The decrypted message
         """

@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys, os
-os.chdir(os.path.dirname(os.path.realpath(__file__))) # Set working directory to the script location
-sys.path.append('..') # Add parent directory to the path in order to import modules
+import os
+import sys
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))  # Set working directory to the script location
+sys.path.append('..')  # Add parent directory to the path in order to import modules
 
 from socket import *
 from algorithms.elgamal import ElGamal

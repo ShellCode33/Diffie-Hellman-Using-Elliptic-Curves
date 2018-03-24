@@ -8,22 +8,41 @@ from random import *
 class ElGamal(EllipticCurve):
 
     def __init__(self):
+        """
+        The remote public key has to be set manually using the setRemotePublicKey method.
+        """
         super(ElGamal, self).__init__()
         self.remote_public_key = None
         self.__initElGamalParameters()
 
     def __initElGamalParameters(self):
-        self.private_key = randint(1, self.point_order - 1)  # trouver le poitn P au préalable
-        self.public_key = self.fast_exp(self.private_key, self.init_point)  # Pareil ajouter le point P
+        """
+        This method creates the public and private key
+        """
+        self.private_key = randint(1, self.point_order - 1)
+        self.public_key = self.fast_exp(self.private_key, self.init_point)
 
     def setRemotePublicKey(self, public_key):
+        """
+        Public Key Setter
+        :param public_key: Public key of the person we're communicating with
+        """
         self.remote_public_key = public_key
 
     def getPublicKey(self):
+        """
+        Public Key Getter
+        :return: self.public_key
+        """
         return self.public_key
 
     # https://www.sciencedirect.com/science/article/pii/S1877050915013332
-    def convertMessageToPointOnCurve(self, msg):
+    def convertMessageToPointsOnCurve(self, msg):
+        """
+        This method turns a message into points on the curve that can be encrypted
+        :param msg: The string to encrypt
+        :return: The list of points representing the message
+        """
         group_size = len(MathUtils.numberToBase(self.Fp, 65536)) - 1
         groups = []
 
@@ -52,21 +71,35 @@ class ElGamal(EllipticCurve):
         if len(groups_big_int) % 2 == 1:
             groups_big_int.append(32)
 
+        # this list looks like [x, y, x, y, x, y]
         return groups_big_int
 
     def encrypt(self, msg):
-        msg_point = self.convertMessageToPointOnCurve(msg)
-        msg_point = (msg_point[0], msg_point[1])
+        """
+        The encryption method
+        :param msg: The string you want to cipher
+        :return: the encrypted string
+        """
+        msg_points = self.convertMessageToPointsOnCurve(msg)
+        msg_point = (msg_points[0], msg_points[1])
         coef_k = randint(1, self.point_order - 1)
         c1 = self.fast_exp(coef_k, self.init_point)
         c2 = self.addPoints(msg_point, self.fast_exp(coef_k, self.remote_public_key))
         return c1, c2
 
     def decrypt(self, cipher):
+        """
+        The decryption method
+        :param cipher: The cipher you want to recover
+        :return: The decrypted message
+        """
         decrypt_step_one = self.fast_exp(self.private_key, cipher[0])
         decrypted_message = self.addPoints(cipher[1], MathUtils.symetric(decrypt_step_one))
         return decrypted_message
 
     def askCurveToUse(self):
+        """
+        Overriding EllipticCurve's method in order to init ElGamal parameters after
+        """
         super(ElGamal, self).askCurveToUse()
         self.__initElGamalParameters()

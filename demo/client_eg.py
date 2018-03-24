@@ -19,7 +19,7 @@ if __name__ == "__main__":
     s = socket(AF_INET, SOCK_STREAM)
     s.connect(("localhost", 1337))
 
-    # Initialises ElGamal class and asking to the user which curve he wants to use
+    # Initialises ElGamal class and asks to the user which curve he wants to use
     eg = ElGamal()
     eg.askCurveToUse()
 

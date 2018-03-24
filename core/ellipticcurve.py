@@ -76,17 +76,17 @@ class EllipticCurve(object):
             if p1[1] == 0:
                 return None  # point at infinity
 
-            λ = (3 * (p2[0] ** 2) + self.a) * MathUtils.modinv((2 * p2[1]) % self.Fp, self.Fp)
+            lmbda = (3 * (p2[0] ** 2) + self.a) * MathUtils.modinv((2 * p2[1]) % self.Fp, self.Fp)
 
         else:  # P + Q
             if p1[0] == p2[0]:
                 return None  # point at infinity
 
-            λ = (p2[1] - p1[1]) * MathUtils.modinv((p2[0] - p1[0]) % self.Fp, self.Fp)
+            lmbda = (p2[1] - p1[1]) * MathUtils.modinv((p2[0] - p1[0]) % self.Fp, self.Fp)
 
-        λ %= self.Fp
-        x = λ ** 2 - p2[0] - p1[0]
-        y = λ * (p1[0] - x) - p1[1]
+        lmbda %= self.Fp
+        x = lmbda ** 2 - p2[0] - p1[0]
+        y = lmbda * (p1[0] - x) - p1[1]
 
         return x % self.Fp, y % self.Fp
 

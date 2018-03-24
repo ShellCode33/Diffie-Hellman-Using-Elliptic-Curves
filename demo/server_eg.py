@@ -13,6 +13,7 @@ BUFFER_SIZE = 4096
 
 if __name__ == "__main__":
 
+    # Creates the socket and listen to incomming connections
     s = socket(AF_INET, SOCK_STREAM)
     s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     s.bind(("localhost", 1337))
@@ -22,16 +23,21 @@ if __name__ == "__main__":
     conn, addr = s.accept()
     print("Client connected.")
 
+    # Initialises ElGamal class and asks to the user which curve he wants to use
     eg = ElGamal()
     eg.askCurveToUse()
     print("Sending public key to client...")
 
-    # On envoie la clé publique au client, ATTENTION : l'authentification n'est pas garantie !! Un MITM est possible.
-    # C'est juste pour l'exemple, pour montrer que le chiffrement/déchiffrement fonctionne
+    # Sends the public key. In this example, the server is not authentificated,
+    # MITM is possible and the public key could be hijacked.
     conn.send(pickle.dumps(eg.getPublicKey()))
 
+    # Receives cipher sent by the client.
+    # Be careful with pickle.loads() it can lead to serious security issues. This is only an example.
     cipher = pickle.loads(conn.recv(BUFFER_SIZE))
     print("Cipher received: " + str(cipher))
+
+    # Decrypt cipher and print it
     plaintext = eg.decrypt(cipher)
     print("Received: " + str(plaintext))
 

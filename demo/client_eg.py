@@ -33,6 +33,7 @@ if __name__ == "__main__":
 
     print("Server's public key received.")
     cipher = eg.encrypt("Salut ca va ? Moi ca va très bien ma foi ! Je fais aller :) Nickel.")
+
     print("Sending encrypted message to server...")
     s.send(pickle.dumps(cipher))
 

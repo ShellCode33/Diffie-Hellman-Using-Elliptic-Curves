@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from core.mathutils import MathUtils
+from random import *
 
 
 class PointNotOnCurveException(Exception):
@@ -41,6 +42,7 @@ class EllipticCurve(object):
         self.init_point = self.corresponding_points[0]
         # self.point_order = self.find_point_order(self.init_point)
         self.point_order = self.corresponding_orders[0]
+        self.__gen_keys()
 
     def __str__(self):
         return "y² = x³ + " + str(self.a) + "x + " + str(self.b)
@@ -117,6 +119,13 @@ class EllipticCurve(object):
 
         return P
 
+    def __gen_keys(self):
+        """
+        This method creates the public and private key
+        """
+        self.private_key = randint(1, self.point_order - 1)
+        self.public_key = self.fast_exp(self.private_key, self.init_point)
+
     def find_point_order(self, point):
         """
         Find the point order, this method is very slow with big numbers. The best way to do is to hardcode its value
@@ -162,3 +171,4 @@ class EllipticCurve(object):
         self.init_point = self.corresponding_points[choosen_curve]
         # self.point_order = self.find_point_order(self.init_point)
         self.point_order = self.corresponding_orders[choosen_curve]
+        self.__gen_keys() # We regenerate the keys according to the new parameters

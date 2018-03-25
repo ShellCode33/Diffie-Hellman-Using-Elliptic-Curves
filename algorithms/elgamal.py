@@ -13,14 +13,7 @@ class ElGamal(EllipticCurve):
         """
         super(ElGamal, self).__init__()
         self.remote_public_key = None
-        self.__initElGamalParameters()
-
-    def __initElGamalParameters(self):
-        """
-        This method creates the public and private key
-        """
-        self.private_key = randint(1, self.point_order - 1)
-        self.public_key = self.fast_exp(self.private_key, self.init_point)
+        self.__gen_keys()
 
     def setRemotePublicKey(self, public_key):
         """
@@ -107,4 +100,4 @@ class ElGamal(EllipticCurve):
         Overriding EllipticCurve's method in order to init ElGamal parameters after
         """
         super(ElGamal, self).askCurveToUse()
-        self.__initElGamalParameters()
+        self.__gen_keys()

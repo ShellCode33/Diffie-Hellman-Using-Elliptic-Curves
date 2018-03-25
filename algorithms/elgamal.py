@@ -13,7 +13,6 @@ class ElGamal(EllipticCurve):
         """
         super(ElGamal, self).__init__()
         self.remote_public_key = None
-        self.__gen_keys()
 
     def setRemotePublicKey(self, public_key):
         """
@@ -22,14 +21,6 @@ class ElGamal(EllipticCurve):
         :param public_key: Public key of the person we're communicating with
         """
         self.remote_public_key = public_key
-
-    def getPublicKey(self):
-        """
-        Public Key Getter
-
-        :return: self.public_key
-        """
-        return self.public_key
 
     # https://www.sciencedirect.com/science/article/pii/S1877050915013332
     def convertMessageToPointsOnCurve(self, msg):
@@ -94,10 +85,3 @@ class ElGamal(EllipticCurve):
         decrypt_step_one = self.fast_exp(self.private_key, cipher[0])
         decrypted_message = self.addPoints(cipher[1], MathUtils.symetric(decrypt_step_one))
         return decrypted_message
-
-    def askCurveToUse(self):
-        """
-        Overriding EllipticCurve's method in order to init ElGamal parameters after
-        """
-        super(ElGamal, self).askCurveToUse()
-        self.__gen_keys()

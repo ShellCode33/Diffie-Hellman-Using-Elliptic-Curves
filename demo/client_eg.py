@@ -32,7 +32,7 @@ if __name__ == "__main__":
     eg.setRemotePublicKey(public_key)
 
     print("Server's public key received.")
-    cipher = eg.encrypt("Salut ca va ? Moi ca va très bien ma foi ! Je fais aller :) Nickel.")
+    cipher = eg.encrypt(eg.init_point)  # The point has to be on the curve... We use the init_point just to show it's working
 
     print("Sending encrypted message to server...")
     s.send(pickle.dumps(cipher))

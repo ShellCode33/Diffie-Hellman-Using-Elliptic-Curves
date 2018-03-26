@@ -171,4 +171,4 @@ class EllipticCurve(object):
         self.init_point = self.corresponding_points[choosen_curve]
         # self.point_order = self.find_point_order(self.init_point)
         self.point_order = self.corresponding_orders[choosen_curve]
-        self.__gen_keys() # We regenerate the keys according to the new parameters
+        self.__gen_keys()  # We regenerate the keys according to the new parameters

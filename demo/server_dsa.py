@@ -8,8 +8,9 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))  # Set working directory t
 sys.path.append('..')  # Add parent directory to the path in order to import modules
 
 from socket import *
-from algorithms.elgamal import ElGamal
+from algorithms.dsa import DSA
 import pickle
+import hashlib
 
 BUFFER_SIZE = 4096
 
@@ -21,27 +22,22 @@ if __name__ == "__main__":
     s.bind(("localhost", 1337))
     s.listen(1)
 
+    # Initialises DSA class and asks to the user which curve he wants to use
+    dsa = DSA("Hello world!")
+    dsa.askCurveToUse()
+    signature = dsa.sign()
+
     print("Waiting for client...")
     conn, addr = s.accept()
     print("Client connected.")
 
-    # Initialises ElGamal class and asks to the user which curve he wants to use
-    eg = ElGamal()
-    eg.askCurveToUse()
-    print("Sending public key to client...")
-
+    # Send the public key and the signature
     # Sends the public key. In this example, the server is not authentificated,
     # MITM is possible and the public key could be hijacked.
-    conn.send(pickle.dumps(eg.public_key))
-
-    # Receives cipher sent by the client.
-    # Be careful with pickle.loads() it can lead to serious security issues. This is only an example.
-    cipher = pickle.loads(conn.recv(BUFFER_SIZE))
-    print("Cipher received: " + str(cipher))
-
-    # Decrypt cipher and print it
-    plaintext = eg.decrypt(cipher)
-    print("Received: " + str(plaintext))
+    conn.send(pickle.dumps(dsa.public_key))
+    print("Public key is sent.")
+    conn.send(pickle.dumps(signature))
+    print("Signature is sent.")
 
     conn.close()
     s.close()

@@ -61,15 +61,14 @@ class ElGamal(EllipticCurve):
         # this list looks like [x, y, x, y, x, y]
         return groups_big_int
 
-    def encrypt(self, msg):
+    def encrypt(self, msg_point):
         """
         The encryption method
 
-        :param msg: The string you want to cipher
-        :return: the encrypted string
+        :param msg_point: The point you want to cipher
+        :return: the encrypted point
         """
-        msg_points = self.convertMessageToPointsOnCurve(msg)
-        msg_point = (msg_points[0], msg_points[1])
+        # msg_points = self.convertMessageToPointsOnCurve(msg) # Not working yet
         coef_k = randint(1, self.point_order - 1)
         c1 = self.fast_exp(coef_k, self.init_point)
         c2 = self.addPoints(msg_point, self.fast_exp(coef_k, self.remote_public_key))
@@ -80,7 +79,7 @@ class ElGamal(EllipticCurve):
         The decryption method
 
         :param cipher: The cipher you want to recover
-        :return: The decrypted message
+        :return: The decrypted point
         """
         decrypt_step_one = self.fast_exp(self.private_key, cipher[0])
         decrypted_message = self.addPoints(cipher[1], MathUtils.symetric(decrypt_step_one))

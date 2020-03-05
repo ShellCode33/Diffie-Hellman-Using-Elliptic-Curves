@@ -1,10 +1,12 @@
 # Elliptic Curves Cryptography
 Simple Python module implementing Diffie Hellman, El Gamal and DSA algorithms using elliptic curves.
-These algorithms don't guarentee the authentification. A MITM attack could be performed in order to hijack the public key.
+These algorithms don't guarentee authentication, a MITM attack could be performed in order to hijack the public key.
+
+Just stating the obvious here : those scripts are for educational purposes only, do not use it in anything serious.
 
 ## Diffie Hellman
 
-You can run the Server and the Client to see that the generated secret key is the same on both sides.
+You can run the server then the client to see the generated secret key is the same on both sides.
 
 ```
 shellcode@laptop:/home/shellcode/Crypto/Elliptic-Curves-Algorithms/demo  git:(master*) $ ./server_dh.py 
@@ -57,7 +59,7 @@ Sending encrypted message to server...
 ```
 
 ## DSA
-This algorithm enables you to sign messages in order to check the integrity and to be sure the message is from a legitimate emitter.
+This algorithm enables you to sign messages in order to check integrity, to be sure the message is from a legitimate emitter.
 
 ```
 shellcode@laptop:/home/shellcode/Crypto/Elliptic-Curves-Algorithms/demo  git:(master*) $ ./server_dsa.py 
